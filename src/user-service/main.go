@@ -20,6 +20,10 @@ func main() {
 	// 自动检查 User 结构是否变化
 	db.AutoMigrate(&pb.User{})
 
+	// 作者使用了新仓库 shippy-user-service
+	// 但 auth.proto 和 user.proto 定义的内容是一致的
+	// 修改 shippy.auth 为 go.micro.srv.user
+	// 注意 API 调用参数也需对应修改
 	srv := micro.NewService(
 		micro.Name("go.micro.srv.user"),
 		micro.Version("latest"),
