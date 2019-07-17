@@ -1,11 +1,11 @@
 package main
 
 import (
-	pb "shippy/consignment-service/proto/consignment"
-	vesselPb "shippy/vessel-service/proto/vessel"
 	"context"
-	"log"
 	"github.com/micro/go-micro"
+	pb "learn/shippy-origin/consignment-service/proto/consignment"
+	vesselPb "learn/shippy/vessel-service/proto/vessel"
+	"log"
 )
 
 //

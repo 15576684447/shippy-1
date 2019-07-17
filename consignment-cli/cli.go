@@ -1,14 +1,14 @@
 package main
 
 import (
-	pb "shippy/consignment-service/proto/consignment"
-	"io/ioutil"
+	"context"
 	"encoding/json"
 	"errors"
+	"github.com/micro/go-micro"
+	"io/ioutil"
+	pb "learn/shippy/consignment-service/proto/consignment"
 	"log"
 	"os"
-	"context"
-	"github.com/micro/go-micro"
 )
 
 const (

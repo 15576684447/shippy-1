@@ -1,10 +1,10 @@
 package main
 
 import (
-	pb "shippy/vessel-service/proto/vessel"
-	"github.com/pkg/errors"
 	"context"
 	"github.com/micro/go-micro"
+	"github.com/pkg/errors"
+	pb "learn/shippy/vessel-service/proto/vessel"
 	"log"
 )
 
