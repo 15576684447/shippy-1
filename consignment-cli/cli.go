@@ -1,14 +1,14 @@
 package main
 
 import (
-	pb "shippy/consignment-service/proto/consignment"
-	"io/ioutil"
+	"context"
 	"encoding/json"
 	"errors"
 	"google.golang.org/grpc"
+	"io/ioutil"
+	pb "learn/shippy/consignment-service/proto/consignment"
 	"log"
 	"os"
-	"context"
 )
 
 const (
@@ -68,7 +68,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to list consignments: %v", err)
 	}
-	for _, c := range resp.Consignments {
-		log.Printf("%+v", c)
+	for i, c := range resp.Consignments {
+		log.Printf("[%d]: %+v", i, c)
 	}
 }

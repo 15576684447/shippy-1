@@ -1,11 +1,11 @@
 package main
 
 import (
-	pb "shippy/consignment-service/proto/consignment"
 	"context"
-	"net"
-	"log"
 	"google.golang.org/grpc"
+	pb "learn/shippy/consignment-service/proto/consignment"
+	"log"
+	"net"
 )
 
 const (
