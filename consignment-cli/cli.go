@@ -57,15 +57,15 @@ func main() {
 	}
 
 	// 新货物是否托运成功
-	log.Printf("created: %t", resp.Created)
-	log.Printf("resp: %v", resp)
+	log.Printf("created: %t\n", resp.Created)
+	log.Printf("resp: %v\n", resp)
 
 	// 列出目前所有托运的货物
 	resp, err = client.GetConsignments(context.Background(), &pb.GetRequest{})
 	if err != nil {
 		log.Fatalf("failed to list consignments: %v", err)
 	}
-	for _, c := range resp.Consignments {
-		log.Printf("%+v", c)
+	for index, c := range resp.Consignments {
+		log.Printf("[%d]: %+v", index+1, c)
 	}
 }
