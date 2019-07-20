@@ -1,6 +1,6 @@
 package main
 
-import "gopkg.in/mgo.v2"
+import "github.com/go-mgo/mgo"
 
 // 创建与 MongoDB 交互的主回话
 func CreateSession(host string) (*mgo.Session, error) {

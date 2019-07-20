@@ -1,17 +1,16 @@
 package main
 
 import (
+	"github.com/micro/go-micro/config/cmd"
 	"log"
 	"os"
 
-	pb "shippy/user-service/proto/user"
-	microclient "github.com/micro/go-micro/client"
-	"github.com/micro/go-micro/cmd"
-	"golang.org/x/net/context"
 	"github.com/micro/cli"
 	"github.com/micro/go-micro"
+	microclient "github.com/micro/go-micro/client"
+	"golang.org/x/net/context"
+	pb "learn/shippy/user-service/proto/user"
 )
-
 
 func main() {
 
@@ -36,7 +35,7 @@ func main() {
 				Usage: "Your password",
 			},
 			cli.StringFlag{
-				Name: "company",
+				Name:  "company",
 				Usage: "Your company",
 			},
 		),
@@ -50,10 +49,10 @@ func main() {
 			company := c.String("company")
 
 			r, err := client.Create(context.TODO(), &pb.User{
-				Name: name,
-				Email: email,
+				Name:     name,
+				Email:    email,
 				Password: password,
-				Company: company,
+				Company:  company,
 			})
 			if err != nil {
 				log.Fatalf("Could not create: %v", err)

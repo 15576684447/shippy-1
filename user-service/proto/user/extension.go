@@ -3,7 +3,7 @@ package go_micro_srv_user
 import (
 	"github.com/jinzhu/gorm"
 	"github.com/satori/go.uuid"
-	"github.com/labstack/gommon/log"
+	"log"
 )
 
 func (user *User) BeforeCreate(scope *gorm.Scope) error {

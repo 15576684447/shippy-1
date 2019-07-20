@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/labstack/gommon/log"
-	pb "shippy/user-service/proto/user"
-	"github.com/micro/go-micro"
 	"fmt"
+	"github.com/micro/go-micro"
+	pb "learn/shippy/user-service/proto/user"
+	"log"
 )
 
 func main() {

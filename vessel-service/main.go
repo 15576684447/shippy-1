@@ -1,8 +1,8 @@
 package main
 
 import (
-	pb "shippy/vessel-service/proto/vessel"
 	"github.com/micro/go-micro"
+	pb "learn/shippy/vessel-service/proto/vessel"
 	"log"
 	"os"
 )
@@ -23,7 +23,6 @@ func main() {
 		log.Fatalf("create session error: %v\n", err)
 	}
 
-
 	// 停留在港口的货船，先写死
 	repo := &VesselRepository{session.Copy()}
 	CreateDummyData(repo)
@@ -41,7 +40,7 @@ func main() {
 	}
 }
 
-func CreateDummyData(repo Repository)  {
+func CreateDummyData(repo Repository) {
 	defer repo.Close()
 	vessels := []*pb.Vessel{
 		{Id: "vessel001", Name: "Boaty McBoatface", MaxWeight: 200000, Capacity: 500},

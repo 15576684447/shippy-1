@@ -1,10 +1,10 @@
 package main
 
 import (
-	pb "shippy/consignment-service/proto/consignment"
-	vesselPb "shippy/vessel-service/proto/vessel"
-	"log"
 	"github.com/micro/go-micro"
+	pb "learn/shippy/consignment-service/proto/consignment"
+	vesselPb "learn/shippy/vessel-service/proto/vessel"
+	"log"
 	"os"
 )
 
@@ -12,13 +12,12 @@ const (
 	DEFAULT_HOST = "localhost:27017"
 )
 
-
 func main() {
 
 	// 获取容器设置的数据库地址环境变量的值
 	dbHost := os.Getenv("DB_HOST")
-	if dbHost == ""{
-		 dbHost = DEFAULT_HOST
+	if dbHost == "" {
+		dbHost = DEFAULT_HOST
 	}
 	session, err := CreateSession(dbHost)
 	// 创建于 MongoDB 的主会话，需在退出 main() 时候手动释放连接

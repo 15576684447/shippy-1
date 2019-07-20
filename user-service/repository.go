@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/jinzhu/gorm"
-	pb "shippy/user-service/proto/user"
+	pb "learn/shippy/user-service/proto/user"
 )
 
 type Repository interface {

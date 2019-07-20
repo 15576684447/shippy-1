@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	pb "shippy/user-service/proto/user"
+	pb "learn/shippy/user-service/proto/user"
 )
 
 type handler struct {
@@ -18,7 +18,7 @@ func (h *handler) Create(ctx context.Context, req *pb.User, resp *pb.Response) e
 }
 
 func (h *handler) Get(ctx context.Context, req *pb.User, resp *pb.Response) error {
-	u, err := h.repo.Get(req.Id);
+	u, err := h.repo.Get(req.Id)
 	if err != nil {
 		return err
 	}
