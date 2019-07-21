@@ -3,7 +3,10 @@
 
 package go_micro_srv_consignment
 
-import proto "github.com/golang/protobuf/proto"
+import (
+	proto "github.com/golang/protobuf/proto"
+	"github.com/micro/go-micro/util/log"
+)
 import fmt "fmt"
 import math "math"
 
@@ -287,8 +290,10 @@ func NewShippingServiceClient(serviceName string, c client.Client) ShippingServi
 func (c *shippingServiceClient) CreateConsignment(ctx context.Context, in *Consignment, opts ...client.CallOption) (*Response, error) {
 	req := c.c.NewRequest(c.serviceName, "ShippingService.CreateConsignment", in)
 	out := new(Response)
+	log.Info("Call Service to Create Consignment")
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
+		log.Log("Call Service Err")
 		return nil, err
 	}
 	return out, nil

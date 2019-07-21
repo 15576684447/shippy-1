@@ -22,7 +22,7 @@ func (h *handler) GetRepo() Repository {
 
 func (h *handler) CreateConsignment(ctx context.Context, req *pb.Consignment, resp *pb.Response) error {
 	defer h.GetRepo().Close()
-
+	log.Println("Called by Client to CreateConsignment")
 	// 检查是否有适合的货轮
 	vReq := &vesselPb.Specification{
 		Capacity:  int32(len(req.Containers)),

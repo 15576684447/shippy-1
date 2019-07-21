@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/micro/go-micro/util/log"
 	pb "learn/shippy/user-service/proto/user"
 )
 
@@ -10,6 +11,7 @@ type handler struct {
 }
 
 func (h *handler) Create(ctx context.Context, req *pb.User, resp *pb.Response) error {
+	log.Info("Called by client to Create consignment")
 	if err := h.repo.Create(req); err != nil {
 		return nil
 	}

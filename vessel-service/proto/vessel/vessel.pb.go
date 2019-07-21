@@ -3,7 +3,10 @@
 
 package go_micro_srv_vessel
 
-import proto "github.com/golang/protobuf/proto"
+import (
+	proto "github.com/golang/protobuf/proto"
+	"github.com/micro/go-micro/util/log"
+)
 import fmt "fmt"
 import math "math"
 
@@ -245,6 +248,7 @@ func NewVesselServiceClient(serviceName string, c client.Client) VesselServiceCl
 }
 
 func (c *vesselServiceClient) FindAvailable(ctx context.Context, in *Specification, opts ...client.CallOption) (*Response, error) {
+	log.Info("Call for vessel FindAvaliable")
 	req := c.c.NewRequest(c.serviceName, "VesselService.FindAvailable", in)
 	out := new(Response)
 	err := c.c.Call(ctx, req, out, opts...)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/micro/go-micro/util/log"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	pb "learn/shippy/vessel-service/proto/vessel"
@@ -24,12 +25,14 @@ type VesselRepository struct {
 // 接口实现
 func (repo *VesselRepository) FindAvailable(spec *pb.Specification) (*pb.Vessel, error) {
 	// 选择最近一条容量、载重都符合的货轮
+	log.Infof("Called by Client to Find available vessel, capacity: %d, weight: %d", spec.Capacity, spec.MaxWeight)
 	var v *pb.Vessel
 	err := repo.collection().Find(bson.M{
 		"capacity":  bson.M{"$gte": spec.Capacity},
-		"maxweight": bson.M{"$bte": spec.MaxWeight},
+		"maxweight": bson.M{"$gte": spec.MaxWeight},
 	}).One(&v)
 	if err != nil {
+		log.Info("FindAvaliable error")
 		return nil, err
 	}
 	return v, nil

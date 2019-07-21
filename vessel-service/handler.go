@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/micro/go-micro/util/log"
 	"gopkg.in/mgo.v2"
 	pb "learn/shippy/vessel-service/proto/vessel"
 )
@@ -17,6 +18,7 @@ func (h *handler) GetRepo() Repository {
 
 func (h *handler) FindAvailable(ctx context.Context, req *pb.Specification, resp *pb.Response) error {
 	defer h.GetRepo().Close()
+	log.Info("Called by Client to FindAvailable")
 	v, err := h.GetRepo().FindAvailable(req)
 	if err != nil {
 		return err
