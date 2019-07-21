@@ -1,6 +1,6 @@
 package main
 
-import "github.com/go-mgo/mgo"
+import "gopkg.in/mgo.v2"
 
 func CreateSession(host string) (*mgo.Session, error) {
 	s, err := mgo.Dial(host)

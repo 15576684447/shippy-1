@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/go-mgo/mgo"
+	"gopkg.in/mgo.v2"
 	pb "learn/shippy/consignment-service/proto/consignment"
 	vesselPb "learn/shippy/vessel-service/proto/vessel"
 	"log"
