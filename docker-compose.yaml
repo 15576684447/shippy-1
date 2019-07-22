@@ -15,7 +15,7 @@ services:
     environment:
       MICRO_ADRESS: ":50051"
       MICRO_REGISTRY: "mdns"
-      DB_HOST: "datastore:27017"
+      DB_HOST: "127.0.0.1:27017"
 
   vessel-service:
     build: ./vessel-service
@@ -24,7 +24,7 @@ services:
     environment:
       MICRO_ADRESS: ":50051"
       MICRO_REGISTRY: "mdns"
-      DB_HOST: "datastore:27017"
+      DB_HOST: "127.0.0.1:27017"
 
   user-service:
     build: ./user-service
@@ -34,7 +34,7 @@ services:
       MICRO_ADRESS: ":50051"
       MICRO_REGISTRY: "mdns"
       DB_NAME: "postgres"
-      DB_HOST: "database"
+      DB_HOST: "127.0.0.1"
       DB_PORT: "5432"
       DB_USER: "postgres"
       DB_PASSWORD: "postgres"
@@ -50,8 +50,12 @@ services:
     image: mongo
     ports:
       - 27017:27017
+    #docker run --name mongo -p 127.0.0.1:27017:27017 -d mongo
+    #docker exec -it /bin/bash
 
   database:
     image: postgres
     ports:
       - 5432:5432
+    #docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 127.0.0.1:5432:5432 postgres
+    #docker exec -it /bin/bash

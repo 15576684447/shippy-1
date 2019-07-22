@@ -24,19 +24,19 @@ func main() {
 		micro.Flags(
 			cli.StringFlag{
 				Name:  "name",
-				Usage: "You full name",
+				Usage: "dsl",
 			},
 			cli.StringFlag{
 				Name:  "email",
-				Usage: "Your email",
+				Usage: "m15576684447@163.com",
 			},
 			cli.StringFlag{
 				Name:  "password",
-				Usage: "Your password",
+				Usage: "xxx",
 			},
 			cli.StringFlag{
 				Name:  "company",
-				Usage: "Your company",
+				Usage: "bytedance",
 			},
 		),
 	)
