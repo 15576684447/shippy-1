@@ -19,6 +19,7 @@ func main() {
 	if dbHost == "" {
 		dbHost = DEFAULT_HOST
 	}
+	log.Printf("dbHost: %s\n", dbHost)
 	session, err := CreateSession(dbHost)
 	// 创建于 MongoDB 的主会话，需在退出 main() 时候手动释放连接
 	defer session.Close()

@@ -15,7 +15,7 @@ services:
     environment:
       MICRO_ADRESS: ":50051"
       MICRO_REGISTRY: "mdns"
-      DB_HOST: "127.0.0.1:27017"
+      DB_HOST: "192.168.0.110:27017"
 
   vessel-service:
     build: ./vessel-service
@@ -24,7 +24,7 @@ services:
     environment:
       MICRO_ADRESS: ":50051"
       MICRO_REGISTRY: "mdns"
-      DB_HOST: "127.0.0.1:27017"
+      DB_HOST: "192.168.0.110:27017"
 
   user-service:
     build: ./user-service
@@ -34,28 +34,34 @@ services:
       MICRO_ADRESS: ":50051"
       MICRO_REGISTRY: "mdns"
       DB_NAME: "postgres"
-      DB_HOST: "127.0.0.1"
+      DB_HOST: "192.168.0.110"
       DB_PORT: "5432"
       DB_USER: "postgres"
       DB_PASSWORD: "postgres"
-    depends_on:
-      - database
+    #depends_on:
+      #- database
 
   user-cli:
     build: ./user-cli
     environment:
       MICRO_REGISTRY: "mdns"
 
-  datastore:
-    image: mongo
-    ports:
-      - 27017:27017
+  #datastore:
+    #image: mongo
+    #ports:
+      #- 27017:27017
+    #mongo运行于容器，服务单独运行，映射到本地IP
     #docker run --name mongo -p 127.0.0.1:27017:27017 -d mongo
+    #mongo和微服务都运行于docker，通过访问物理机具体IP访问容器内数据库
+    #docker run --name mongo -p 27017:27017 -d mongo
     #docker exec -it /bin/bash
 
-  database:
-    image: postgres
-    ports:
-      - 5432:5432
+  #database:
+    #image: postgres
+    #ports:
+      #- 5432:5432
+    #postgres运行于容器，服务单独运行，映射到本地IP
     #docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 127.0.0.1:5432:5432 postgres
+    #postgres和微服务都运行于docker，通过访问物理机具体IP访问容器内数据库
+    #docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
     #docker exec -it /bin/bash
