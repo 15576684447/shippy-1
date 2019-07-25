@@ -1,0 +1,6 @@
+.idea
+src/consignment-cli/consignment-cli
+src/consignment-service/consignment-service
+src/user-cli/user-cli
+src/user-service/user-service
+src/vessel-service/vessel-service
