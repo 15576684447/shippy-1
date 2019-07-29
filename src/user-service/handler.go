@@ -24,10 +24,12 @@ func (h *handler) Create(ctx context.Context, req *pb.User, resp *pb.Response) e
 	// 哈希处理用户输入的密码
 	hashedPwd, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
+		log.Printf("bcrypt.GenerateFromPassword err: %s\n", err)
 		return err
 	}
 	req.Password = string(hashedPwd)
 	if err := h.repo.Create(req); err != nil {
+		log.Printf("Create data into database err: %s\n", err)
 		return nil
 	}
 	resp.User = req
@@ -39,6 +41,7 @@ func (h *handler) Create(ctx context.Context, req *pb.User, resp *pb.Response) e
 
 	log.Printf("Called by user-cli to Create user success, now publish event to notify email")
 	if err := h.Publisher.Publish(ctx, req); err != nil {
+		log.Printf("publish message err\n")
 		return err
 	}
 	return nil
@@ -69,6 +72,7 @@ func (h *handler) Get(ctx context.Context, req *pb.User, resp *pb.Response) erro
 	log.Printf("Called by user-cli to Get user info")
 	u, err := h.repo.Get(req.Id)
 	if err != nil {
+		log.Printf("Get user info from database err: %s\n", err)
 		return err
 	}
 	resp.User = u
@@ -79,6 +83,7 @@ func (h *handler) GetAll(ctx context.Context, req *pb.Request, resp *pb.Response
 	log.Printf("Called by user-cli to Get all user info")
 	users, err := h.repo.GetAll()
 	if err != nil {
+		log.Printf("GetAll user info from database err: %s\n", err)
 		return err
 	}
 	resp.Users = users
@@ -93,15 +98,18 @@ func (h *handler) Auth(ctx context.Context, req *pb.User, resp *pb.Token) error 
 	// 将无法通过验证
 	u, err := h.repo.GetByEmail(req.Email)
 	if err != nil {
+		log.Printf("Auth user info err: %s\n", err)
 		return err
 	}
 
 	// 进行密码验证
 	if err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(req.Password)); err != nil {
+		log.Printf("Auth CompareHashAndPassword err: %s\n", err)
 		return err
 	}
 	t, err := h.tokenService.Encode(u)
 	if err != nil {
+		log.Printf("Auth Token Encode err: %s\n", err)
 		return err
 	}
 	resp.Token = t
@@ -113,6 +121,7 @@ func (h *handler) ValidateToken(ctx context.Context, req *pb.Token, resp *pb.Tok
 	// Decode token
 	claims, err := h.tokenService.Decode(req.Token)
 	if err != nil {
+		log.Printf("ValidateToken Token Decode err: %s\n", err)
 		return err
 	}
 	if claims.User.Id == "" {

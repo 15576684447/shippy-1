@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM debian:latest
 RUN mkdir /app
 WORKDIR /app
 ADD email-service /app/email-service

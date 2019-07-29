@@ -6,11 +6,11 @@ import (
 	"errors"
 	microclient "github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/config/cmd"
+	"github.com/micro/go-micro/metadata"
 	"io/ioutil"
 	pb "learn/shippy/src/consignment-service/proto/consignment"
 	"log"
 	"os"
-	"github.com/micro/go-micro/metadata"
 )
 
 const (
@@ -41,7 +41,7 @@ func main() {
 
 	// 在命令行中指定新的货物信息 json 件
 	if len(os.Args) < 3 {
-		log.Fatalln("Not enough arguments, expecing file and token.")
+		log.Fatalln("Not enough arguments, expecing file and token [exec user-cli/user-service first].")
 	}
 	infoFile := os.Args[1]
 	token := os.Args[2]
@@ -72,6 +72,6 @@ func main() {
 		log.Fatalf("failed to list consignments: %v", err)
 	}
 	for i, c := range resp.Consignments {
-		log.Printf("consignment_%d: %v\n", i, c)
+		log.Printf("consignment_[%d]: %v\n", i, c)
 	}
 }

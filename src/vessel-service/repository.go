@@ -4,6 +4,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	pb "learn/shippy/src/vessel-service/proto/vessel"
+	"log"
 )
 
 const (
@@ -27,19 +28,22 @@ func (repo *VesselRepository) FindAvailable(spec *pb.Specification) (*pb.Vessel,
 	var v *pb.Vessel
 	err := repo.collection().Find(bson.M{
 		"capacity":  bson.M{"$gte": spec.Capacity},
-		"maxweight": bson.M{"$bte": spec.MaxWeight},
+		"maxweight": bson.M{"$gte": spec.MaxWeight},
 	}).One(&v)
 	if err != nil {
+		log.Printf("FindAvailable Vessels from mongodb err: %s\n", err)
 		return nil, err
 	}
 	return v, nil
 }
 
 func (repo *VesselRepository) Create(v *pb.Vessel) error {
+	log.Printf("mongodb: Create\n")
 	return repo.collection().Insert(v)
 }
 
 func (repo *VesselRepository) Close() {
+	log.Printf("mongodb: Close\n")
 	repo.session.Close()
 }
 

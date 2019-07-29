@@ -31,6 +31,7 @@ func (h *handler)CreateConsignment(ctx context.Context, req *pb.Consignment, res
 	log.Printf("Call vessel-service find available vessel")
 	vResp, err := h.vesselClient.FindAvailable(context.Background(), vReq)
 	if err != nil {
+		log.Printf("Consignment-service Find Available from Vessel-service err: %s\n", err)
 		return err
 	}
 
@@ -40,6 +41,7 @@ func (h *handler)CreateConsignment(ctx context.Context, req *pb.Consignment, res
 	//consignment, err := h.repo.Create(req)
 	err = h.GetRepo().Create(req)
 	if err != nil {
+		log.Printf("Consignment-service Create Vessel Info err: %s\n", err)
 		return err
 	}
 	resp.Created = true
@@ -52,6 +54,7 @@ func (h *handler)GetConsignments(ctx context.Context, req *pb.GetRequest, resp *
 	log.Printf("Called by consignment-cli to Get Consignments\n")
 	consignments, err := h.GetRepo().GetAll()
 	if err != nil {
+		log.Printf("Consignment-service GetAll Vessel Info err: %s\n", err)
 		return err
 	}
 	resp.Consignments = consignments

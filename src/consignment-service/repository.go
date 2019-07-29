@@ -3,6 +3,7 @@ package main
 import (
 	"gopkg.in/mgo.v2"
 	pb "learn/shippy/src/consignment-service/proto/consignment"
+	"log"
 )
 
 const (
@@ -22,11 +23,13 @@ type ConsignmentRepository struct {
 
 // 接口实现
 func (repo *ConsignmentRepository) Create(c *pb.Consignment) error {
+	log.Printf("db Create Operation")
 	return repo.collection().Insert(c)
 }
 
 // 获取全部数据
 func (repo *ConsignmentRepository) GetAll() ([]*pb.Consignment, error) {
+	log.Printf("db GeiAll Operation")
 	var cons []*pb.Consignment
 	// Find() 一般用来执行查询，如果想执行 select * 则直接传入 nil 即可
 	// 通过 .All() 将查询结果绑定到 cons 变量上
@@ -37,6 +40,7 @@ func (repo *ConsignmentRepository) GetAll() ([]*pb.Consignment, error) {
 
 // 关闭连接
 func (repo *ConsignmentRepository) Close() {
+	log.Printf("db Close Operation")
 	// Close() 会在每次查询结束的时候关闭会话
 	// Mgo 会在启动的时候生成一个 "主" 会话
 	// 你可以使用 Copy() 直接从主会话复制出新会话来执行，即每个查询都会有自己的数据库会话

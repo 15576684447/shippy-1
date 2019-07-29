@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM debian:latest
 RUN mkdir -p /app
 WORKDIR /app
 
