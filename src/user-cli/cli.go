@@ -32,12 +32,13 @@ func main() {
 	}
 	log.Println("created: ", resp.User.Id)
 
+	log.Printf("Call user-service to get user info")
 	allResp, err := client.GetAll(context.Background(), &pb.Request{})
 	if err != nil {
 		log.Fatalf("call GetAll error: %v", err)
 	}
 	for i, u := range allResp.Users {
-		log.Printf("user_%d: %v\n", i, u)
+		log.Printf("user_[%d]: %v\n", i, u)
 	}
 
 	authResp, err := client.Auth(context.TODO(), &pb.User{

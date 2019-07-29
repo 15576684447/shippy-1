@@ -22,12 +22,13 @@ func (h *handler)GetRepo()Repository  {
 
 func (h *handler)CreateConsignment(ctx context.Context, req *pb.Consignment, resp *pb.Response) error {
 	defer h.GetRepo().Close()
-
+	log.Printf("Called by consignment-cli to Create Consignment\n")
 	// 检查是否有适合的货轮
 	vReq := &vesselPb.Specification{
 		Capacity:  int32(len(req.Containers)),
 		MaxWeight: req.Weight,
 	}
+	log.Printf("Call vessel-service find available vessel")
 	vResp, err := h.vesselClient.FindAvailable(context.Background(), vReq)
 	if err != nil {
 		return err
@@ -48,6 +49,7 @@ func (h *handler)CreateConsignment(ctx context.Context, req *pb.Consignment, res
 
 func (h *handler)GetConsignments(ctx context.Context, req *pb.GetRequest, resp *pb.Response) error {
 	defer h.GetRepo().Close()
+	log.Printf("Called by consignment-cli to Get Consignments\n")
 	consignments, err := h.GetRepo().GetAll()
 	if err != nil {
 		return err

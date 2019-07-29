@@ -7,6 +7,7 @@ import (
 	_ "github.com/micro/go-plugins/broker/nats"
 	"golang.org/x/crypto/bcrypt"
 	pb "learn/shippy/src/user-service/proto/user"
+	"log"
 )
 
 const topic = "user.created"
@@ -19,6 +20,7 @@ type handler struct {
 }
 
 func (h *handler) Create(ctx context.Context, req *pb.User, resp *pb.Response) error {
+	log.Printf("Called by user-cli to Create user info [with password bcrypt]")
 	// 哈希处理用户输入的密码
 	hashedPwd, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -35,6 +37,7 @@ func (h *handler) Create(ctx context.Context, req *pb.User, resp *pb.Response) e
 	//	return err
 	//}
 
+	log.Printf("Called by user-cli to Create user success, now publish event to notify email")
 	if err := h.Publisher.Publish(ctx, req); err != nil {
 		return err
 	}
@@ -63,6 +66,7 @@ func (h *handler) Create(ctx context.Context, req *pb.User, resp *pb.Response) e
 //}
 
 func (h *handler) Get(ctx context.Context, req *pb.User, resp *pb.Response) error {
+	log.Printf("Called by user-cli to Get user info")
 	u, err := h.repo.Get(req.Id)
 	if err != nil {
 		return err
@@ -72,6 +76,7 @@ func (h *handler) Get(ctx context.Context, req *pb.User, resp *pb.Response) erro
 }
 
 func (h *handler) GetAll(ctx context.Context, req *pb.Request, resp *pb.Response) error {
+	log.Printf("Called by user-cli to Get all user info")
 	users, err := h.repo.GetAll()
 	if err != nil {
 		return err
@@ -81,6 +86,7 @@ func (h *handler) GetAll(ctx context.Context, req *pb.Request, resp *pb.Response
 }
 
 func (h *handler) Auth(ctx context.Context, req *pb.User, resp *pb.Token) error {
+	log.Printf("Called by user-cli to Auth user info")
 	// 在 part3 中直接传参 &pb.User 去查找用户
 	// 会导致 req 的值完全是数据库中的记录值
 	// 即 req.Password 与 u.Password 都是加密后的密码
@@ -103,6 +109,7 @@ func (h *handler) Auth(ctx context.Context, req *pb.User, resp *pb.Token) error 
 }
 
 func (h *handler) ValidateToken(ctx context.Context, req *pb.Token, resp *pb.Token) error {
+	log.Printf("Called by user-cli to ValidateToken")
 	// Decode token
 	claims, err := h.tokenService.Decode(req.Token)
 	if err != nil {
