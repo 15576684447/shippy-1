@@ -62,3 +62,21 @@ services:
     network_mode: "host"
     ports:
       - 5432:5432
+
+  mq:
+    image: nats
+    ports:
+      - 4222:4222
+
+
+
+  micro:
+    command: api --handler=rpc --namespace=go.micro.srv
+    image: microhq/micro:latest
+    ports:
+      - 8080:8080
+    environment:
+      MICRO_REGISTRY: "mdns"
+
+#docker run -p 8080:8080 -e MICRO_REGISTRY=mdns microhq/micro api --handler=rpc --address=:8080 --namespace=shippy
+
