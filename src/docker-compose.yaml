@@ -1,63 +1,76 @@
 # docker-compose.yaml
 # 同样遵循严格的缩进
 #网络模式都选择主机模式，方便服务间通信
+#目前选择网络模式为自定义bridge模式，可以通过 docker network create dsl-net 来建立自定义bridge，然后通过 docker network ls来查看
+#启动顺序特别说明：先启动vessels-service, 再启动consignment-service, 因为vessels-service depend_on datastore
 version: '3.1'
 
 services:
   consignment-cli:
     build: ./consignment-cli
+    container_name: "consignment-cli"
+    network_mode: "dsl-net"
     environment:
       MICRO_REGISTRY: "mdns"
 
   consignment-service:
     build: ./consignment-service
-    network_mode: "host"
+    container_name: "consignment-service"
+    network_mode: "dsl-net"
     ports:
       - 50051:50051
     environment:
       MICRO_ADRESS: ":50051"
       MICRO_REGISTRY: "mdns"
-      DB_HOST: "localhost:27017"
+      DB_HOST: "datastore:27017"
 
   vessel-service:
     build: ./vessel-service
-    network_mode: "host"
+    container_name: "vessel-service"
+    network_mode: "dsl-net"
     ports:
       - 50052:50051
     environment:
       MICRO_ADRESS: ":50051"
       MICRO_REGISTRY: "mdns"
-      DB_HOST: "localhost:27017"
+      DB_HOST: "datastore:27017"
+    depends_on:
+      - datastore
 
   user-service:
     build: ./user-service
-    network_mode: "host"
+    container_name: "user-service"
+    network_mode: "dsl-net"
     ports:
       - 50053:50051
     environment:
       MICRO_ADRESS: ":50051"
       MICRO_REGISTRY: "mdns"
       DB_NAME: "postgres"
-      DB_HOST: "localhost"
+      DB_HOST: "database"
       DB_PORT: "5432"
       DB_USER: "postgres"
       DB_PASSWORD: "postgres"
-    #depends_on:
-      #- database
+    depends_on:
+      - database
 
   user-cli:
     build: ./user-cli
+    container_name: "user-cli"
+    network_mode: "dsl-net"
     environment:
       MICRO_REGISTRY: "mdns"
 
   datastore:
     image: mongo
-    network_mode: "host"
+    container_name: "datastore"
+    network_mode: "dsl-net"
     ports:
       - 27017:27017
 
   database:
     image: postgres
-    network_mode: "host"
+    container_name: "database"
+    network_mode: "dsl-net"
     ports:
       - 5432:5432
