@@ -1,6 +1,6 @@
 # 若运行环境是 Linux 则需把 alpine 换成 debian
 # 使用最新版 alpine 作为基础镜像
-FROM alpine:latest
+FROM debian:latest
 
 # 在容器的根目录下创建 app 目录
 RUN mkdir /app

@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/jinzhu/gorm"
 	pb "learn/shippy/src/user-service/proto/user"
+	"log"
 )
 
 type Repository interface {
@@ -20,6 +21,7 @@ func (repo *UserRepository) Get(id string) (*pb.User, error) {
 	var u *pb.User
 	u.Id = id
 	if err := repo.db.First(&u).Error; err != nil {
+		log.Printf("Get user by id from db err: %s\n", err)
 		return nil, err
 	}
 	return u, nil
@@ -28,6 +30,7 @@ func (repo *UserRepository) Get(id string) (*pb.User, error) {
 func (repo *UserRepository) GetAll() ([]*pb.User, error) {
 	var users []*pb.User
 	if err := repo.db.Find(&users).Error; err != nil {
+		log.Printf("GetAll users from db err: %s\n", err)
 		return nil, err
 	}
 	return users, nil
@@ -35,6 +38,7 @@ func (repo *UserRepository) GetAll() ([]*pb.User, error) {
 
 func (repo *UserRepository) Create(u *pb.User) error {
 	if err := repo.db.Create(&u).Error; err != nil {
+		log.Printf("Create user into db err: %s\n", err)
 		return err
 	}
 	return nil
@@ -43,6 +47,7 @@ func (repo *UserRepository) Create(u *pb.User) error {
 func (repo *UserRepository) GetByEmail(email string) (*pb.User, error) {
 	user := &pb.User{}
 	if err := repo.db.Where("email = ? ", email).Find(user).Error; err != nil {
+		log.Printf("Get user by email from db err: %s\n", err)
 		return nil, err
 	}
 	return user, nil

@@ -62,8 +62,10 @@ func AuthWrapper(fn server.HandlerFunc) server.HandlerFunc {
 	return func(ctx context.Context, req server.Request, resp interface{}) error {
 		// consignment-service 独立测试时不进行认证
 		if os.Getenv("DISABLE_AUTH") == "true" {
+			log.Printf("DISABLE_AUTH\n")
 			return fn(ctx, req, resp)
 		}
+		log.Printf("ENABLE_AUTH\n")
 		meta, ok := metadata.FromContext(ctx)
 		if !ok {
 			return errors.New("no auth meta-data found in request")
@@ -79,6 +81,7 @@ func AuthWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		})
 		log.Println("Auth Resp:", authResp)
 		if err != nil {
+			log.Printf("Auth User Info Err\n")
 			return err
 		}
 		err = fn(ctx, req, resp)

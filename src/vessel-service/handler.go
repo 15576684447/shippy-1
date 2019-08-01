@@ -22,9 +22,11 @@ func (h *handler) FindAvailable(ctx context.Context, req *pb.Specification, resp
 	log.Printf("Call mongodb to find available data")
 	v, err := h.GetRepo().FindAvailable(req)
 	if err != nil {
+		log.Printf("mongodb find data err: %s\n", err)
 		return err
 	}
 	resp.Vessel = v
+	log.Printf("mongodb find vessel info: %+v", resp.Vessel)
 	return nil
 }
 

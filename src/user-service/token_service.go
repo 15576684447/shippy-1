@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/dgrijalva/jwt-go"
 	pb "learn/shippy/src/user-service/proto/user"
+	"log"
 	"time"
 )
 
@@ -32,6 +33,7 @@ type TokenService struct {
 // 将 JWT 字符串解密为 CustomClaims 对象
 //
 func (srv *TokenService) Decode(tokenStr string) (*CustomClaims, error) {
+	log.Printf("TokenService: Decode\n")
 	t, err := jwt.ParseWithClaims(tokenStr, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return privateKey, nil
 	})
@@ -47,6 +49,7 @@ func (srv *TokenService) Decode(tokenStr string) (*CustomClaims, error) {
 // 将 User 用户信息加密为 JWT 字符串
 //
 func (srv *TokenService) Encode(user *pb.User) (string, error) {
+	log.Printf("TokenService: Encode\n")
 	// 三天后过期
 	expireTime := time.Now().Add(time.Hour * 24 * 3).Unix()
 	claims := CustomClaims{
