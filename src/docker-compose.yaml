@@ -23,6 +23,8 @@ services:
       MICRO_ADRESS: ":50051"
       MICRO_REGISTRY: "mdns"
       DB_HOST: "datastore:27017"
+    depend_on:
+      - micro
 
   vessel-service:
     build: ./vessel-service
@@ -85,6 +87,8 @@ services:
   micro:
     command: api --handler=rpc --namespace=go.micro.srv
     image: microhq/micro:latest
+    container_name: "micro"
+    network_mode: "dsl-net"
     ports:
       - 8080:8080
     environment:
